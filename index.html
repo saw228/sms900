@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iPhone SMS Clone</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+            display: flex;
+            justify-content: center;
+        }
+
+        .screen {
+            width: 430px;
+            height: 90vh;
+            background: #090909;
+            color: #fff;
+            overflow-y: hidden;
+            padding-bottom: 40px;
+            position: relative;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+
+            align-items: center;
+
+          
+            align-items: center;
+         
+            padding: 15px;
+            gap: 10px;
+            font-size: 17px;
+            background-color: #1b1b1b;
+            height: 13%;
+            padding-top: 38px;
+
+        }
+
+        .back {
+            color: #fff;
+        
+            top: 23px;
+            border-radius: 40%;
+            border: 2px solid #369bff;
+            padding: 0.5px 5px;
+         
+            font-size: 11px;
+            background-color: #369bff;
+            font-weight: 400;
+            position: absolute;
+            left: 30px;
+        }
+
+
+        .time {
+            text-align: center;
+            color: #9a9a9a;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .bubble {
+            position: relative;
+            width: 75%;
+            background: #232426;
+            padding: 12px 14px;
+            margin: 12px 10px;
+            border-radius: 18px;
+            line-height: 1.35;
+            margin-left: 12.5px;
+
+        }
+
+        .bubble a {
+            color: #0a84ff;
+            text-decoration: none;
+        }
+
+        .inputbar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 410px;
+            background: #111;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .inputbar input {
+            flex: 1;
+            border-radius: 18px;
+            padding: 10px;
+            background: #111;
+            border: 1.6px solid #282828;
+            outline: none;
+            color: white;
+            font-size: 16px;
+        }
+
+        .avatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-img {
+            width: 60px;
+           
+            height: 75px;
+            border-radius: 50%;
+            object-fit: cover;
+            
+        }
+
+        .name {
+            font-weight: 600;
+            text-align: center;
+            color: #dedede;
+            margin: 0;
+        }
+
+
+        .sender {
+            display: flex;
+            flex-direction: column;
+           
+            align-items: center;
+           
+            position: relative;
+
+        }
+
+        .arrow {
+            position: absolute;
+            width: 23px;
+            height: 31px;
+            top: 8px;
+            left: 3px;
+        }
+
+        .go-back {
+            position: absolute;
+            top: 35px;
+            left: 8px;
+        }
+
+        .plus-btn {
+           
+            width: 35px;
+            height: 35px;
+
+            background: #282828;
+            border: 2px solid #282828;
+       
+            border-radius: 50%;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .plus {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+
+        .plus::before,
+        .plus::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: #676767;
+      
+            border-radius: 1px;
+        
+            transform: translate(-50%, -50%);
+        }
+
+
+        .plus::before {
+            width: 18px;
+
+            height: 2px;
+
+        }
+
+        .plus::after {
+            width: 2px;
+            height: 18px;
+        }
+
+        .mic {
+            width: 30px;
+            height: 28px;
+            position: absolute;
+            top: 15px;
+            left: 89%;
+        }
+
+        .mic-img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .time {
+            text-align: center;
+            color: #9a9a9a;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .control {
+            position: absolute;
+            top: 15%;
+            left: 60px;
+        }
+
+        .phone-header {
+            width: 420px;
+            position: fixed;
+            display: flex;
+            justify-content: space-between;
+            padding-right: 0px;
+            padding-left: 20px;
+            padding-top: 10px;
+        }
+
+        .phone-header-image {
+            width: 120px;
+            height: 30px;
+            margin-right: 15px;
+        }
+
+        .phone-header-time {
+            color: white;
+            font-weight: 600;
+        }
+
+        .payments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 10px 0;
+            justify-content: center;
+        }
+
+        .payments-list-item {
+            padding: 7px 5px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(180deg, #1e90ff, #1573d6);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            min-width: 110px;
+            text-align: center;
+            letter-spacing: 0.4px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.18s cubic-bezier(.2, .9, .3, 1);
+        }
+
+        /* Hover */
+        .payments-list-item:hover {
+            transform: translateY(-0.5px);
+            filter: brightness(1.08);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+        }
+
+        /* Active */
+        .payments-list-item:active {
+            transform: translateY(0);
+            filter: brightness(0.96);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Фокус — чтобы было красиво при тапе */
+        .payments-list-item:focus {
+            outline: none;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65), 0 0 0 4px rgba(30, 144, 255, 0.25);
+        }
+
+        .payments-title {
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .themes-list {
+            margin-top: 10px;
+        }
+
+        .circle {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .circle.black {
+            background: #000;
+        }
+
+        .circle.white {
+            background: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .add-bubble-title {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .add-bubble-text {
+            resize: none;
+            border: 2px solid #1e90ff;
+            background-color: black;
+            color: white;
+            padding: 10px;
+        }
+
+        .add-bubble-control {
+            display: flex;
+            gap: 15px;
+        }
+
+        .add-bubble-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .add-bubble-time {
+            border: 2px solid #1e90ff;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+            padding: 10px;
+        }
+
+        .changeTime2005 {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+
+        }
+
+        .changeTime2005-item {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .changeTime2005-item-title {
+            color: white;
+            font-weight: bold;
+        }
+
+        .changeTime2005-input {
+            width: 70px;
+        }
+
+        .bubble-tail {
+            position: absolute;
+            width: 20px;
+            bottom: -3px;
+            left: -13.5px;
+        }
+
+        .sender-icon {
+            position: absolute;
+            width: 13px;
+            height: 14px;
+            top: 81px;
+            left: 44px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="screen">
+
+        <div class="phone-header">
+            <div class="phone-header-time" id="time-now"></div>
+            <img class="phone-header-image" src="./source/heaer-phoe.png" alt="">
+        </div>
+
+        <div class="topbar">
+
+            <div class="go-back">
+                <span class="back">286</span>
+                <div class="arrow">
+                    <img class="arrow" src="./source/arrov.png" alt="arrow">
+                </div>
+            </div>
+
+            <div class="sender">
+                <div class="avatar">
+                    <img class="avatar-img" src="./source/sener.png" alt="avatar">
+                </div>
+                <span class="name">900</span>
+                <img src="./source/Screenshot_34-removebg-preview.png" alt="" class="sender-icon">
+            </div>
+
+        </div>
+
+
+
+        <div class="time" id="time-later"></div>
+
+
+        <div id="bubble1" class="bubble">
+            <img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+            <span class="bubble1-text">EMC710 12:00 Зачисление 1001р <br>
+                Баланс: 12 581 381.86р</span>
+        </div>
+
+        <div style="display: none;" class="time" id="time-now-text"></div>
+
+
+
+        <div id="bubble2" class="bubble">
+            <img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+            <span>Перевод приостановлен. <br>
+                Операция заблокирована антифрод-системой. <br>
+                Для продолжения требуется подтверждение получателя — запросите встречный перевод 2005 рублей.</span>
+        </div>
+
+        <div class="inputbar">
+            <button class="plus-btn" aria-label="Добавить">
+                <span class="plus" aria-hidden="true"></span>
+            </button>
+            <input class="inputbar-input" type="text" placeholder="Текстовое сообщение · SMS" />
+            <div class="mic">
+                <img class="mic-img" src="./source/mice-removebg-preview.png" alt="mic">
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="control">
+
+        
+
+        <div class="change-text-button" style="margin-top:20px; text-align:center;">
+            <div class="payments">
+                <div class="payments-title">ОПЛАТЫ</div>
+                <div class="payments-list">
+                    <button class="payments-list-item" onclick="changeText2005()">2005</button>
+                    <div class="changeTime2005">
+
+                        <div class="changeTime2005-item">
+                            <div class="changeTime2005-item-title">ИЗМЕНИТЬ ВРЕМЯ</div>
+                            <input id="time2005Later" type="text" class="changeTime2005-input add-bubble-time"
+                                placeholder="Время">
+                            <button class="payments-list-item" onclick="changeTime2005First()">Применить</button>
+                        </div>
+
+
+
+                    </div>
+                    <button class="payments-list-item" onclick="changeText5050()">5050</button>
+                    <div class="changeTime5050 changeTime2005">
+
+                        <div class="changeTime2005-item">
+                            <div class="changeTime2005-item-title">ИЗМЕНИТЬ ВРЕМЯ</div>
+                            <input id="time5050Later" type="text" class="changeTime2005-input add-bubble-time"
+                                placeholder="Время">
+                            <button class="payments-list-item" onclick="changeTime5050First()">Применить</button>
+                        </div>
+
+
+
+
+
+
+                    </div>
+                    <button class="payments-list-item" onclick="changeTextNalog()">Налог</button>
+                    <div class="changeTimeNalog changeTime2005">
+
+                        <div class="changeTime2005-item">
+                            <div class="changeTime2005-item-title">ИЗМЕНИТЬ ВРЕМЯ</div>
+                            <input id="timeNalogLater" type="text" class="changeTime2005-input add-bubble-time"
+                                placeholder="Время">
+                            <button class="payments-list-item" onclick="changeTimeNalogFirst()">Применить</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="themes">
+                <div class="payments-title">ТЕМА</div>
+                <div class="themes-list">
+                    <button class="payments-list-item" onclick="">Белая тема <span class="circle white"></span></button>
+                    <button class="payments-list-item" onclick="">Чёрная тема <span
+                            class="circle black"></span></button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="add-bubble" style="margin-top:20px; text-align:center;">
+            <div class=" payments-title add-bubble-title">ДОБАВИТЬ СООБЩЕНИЕ</div>
+
+            <div class="add-bubble-control">
+                <textarea class="add-bubble-text" id="newBubbleText" type="text" placeholder="Текст" rows="10"
+                    cols="30"></textarea>
+                <div class="add-bubble-right">
+                    <input class="add-bubble-time" id="newBubbleTime" type="text" placeholder="Время" type="text">
+                    <button class="payments-list-item" onclick="addBubble()">+</button>
+                    <button class="payments-list-item" onclick="clearBubble()">Очистить</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+
+        let is2005ChangerTime = false;
+        let is5050ChangerTime = false;
+        let isNalogChangerTime = false;
+
+        const current = getCurrentDate();
+
+
+        let timerId = setInterval(updateTimes, 1000);
+
+
+
+
+
+        let autoUpdate = true; 
+
+
+        function updateTimes() {
+            if (!autoUpdate) return; 
+
+            const options = {
+                timeZone: 'Europe/Moscow',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const formatter = new Intl.DateTimeFormat('ru-RU', options);
+
+            const now = new Date();
+            document.getElementById('time-now').textContent = formatter.format(now);
+            document.getElementById('time-now-text').textContent = formatter.format(now);
+
+            const later = new Date(now.getTime() - 3 * 60000);
+            document.getElementById('time-later').textContent = formatter.format(later);
+        }
+
+        function applyCustomTime() {
+            autoUpdate = false; 
+
+            const customValue = document.getElementById('customTime').value;
+            if (customValue.trim() !== "") {
+                document.getElementById('time-now').textContent = customValue;
+                document.getElementById('time-now-text').textContent = customValue;
+            }
+        }
+
+
+        updateTimes();
+
+
+        function changeText2005() {
+
+
+            document.getElementById('bubble2').innerHTML = `<img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+            <span>Перевод приостановлен. <br>
+                Операция заблокирована антифрод-системой. <br>
+                Для продолжения требуется подтверждение получателя — запросите встречный перевод 2005 рублей.</span>`;
+
+            document.getElementById('bubble1').innerHTML = `
+    <img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+    <span>EMC710 12:00 Зачисление 1001р <br>
+        Баланс: 12 580 380.86р</span>
+`;
+
+            document.getElementById('time-later').style.display = "block";
+            document.getElementById('bubble1').style.display = "block";
+
+
+            document.getElementById('bubble2').style.display = "block";
+
+
+
+            if (is2005ChangerTime) {
+                document.querySelector('.changeTime2005').style.display = "none";
+                is2005ChangerTime = false;
+            } else {
+                document.querySelector('.changeTime2005').style.display = "flex";
+                document.querySelector('.changeTime5050').style.display = "none";
+                document.querySelector('.changeTimeNalog').style.display = "none";
+                is2005ChangerTime = true;
+            }
+
+
+            is5050ChangerTime = false;
+
+
+        }
+        function changeText5050() {
+            document.getElementById('bubble2').innerHTML = `<img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+            <span>Перевод приостановлен. <br>
+                Операция заблокирована антифрод-системой. <br>
+                Для продолжения требуется подтверждение получателя — запросите встречный перевод 5050 рублей.</span>`;
+
+            document.getElementById('bubble1').innerHTML = `
+    <img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+    <span>EMC710 12:00 Зачисление 2005р <br>
+        Баланс: 12 580 380.86р</span>
+`;
+
+            document.getElementById('time-later').style.display = "block";
+            document.getElementById('bubble1').style.display = "block";
+
+            document.getElementById('bubble2').style.display = "block";
+
+            if (is5050ChangerTime) {
+                document.querySelector('.changeTime5050').style.display = "none";
+                is5050ChangerTime = false;
+            } else {
+                document.querySelector('.changeTime5050').style.display = "flex";
+                document.querySelector('.changeTime2005').style.display = "none";
+                document.querySelector('.changeTimeNalog').style.display = "none";
+                is5050ChangerTime = true;
+            }
+
+            console.log(is5050ChangerTime)
+            is2005ChangerTime = false;
+
+
+
+
+        }
+
+        function changeTextNalog() {
+
+            document.getElementById('time-later').style.display = "block";
+
+            document.getElementById('bubble1').style.display = "none";
+
+            document.getElementById('bubble2').textContent = "Уважаемый клиент! Перевод №4732498324 на сумму 200 000 рублей был направлен в обработку, однако для его завершения требуется уплата налога.  Рекомендуем воспользоваться услугами брокера для проведения оплаты.После подтверждения операции перевод будет успешно выполнен.";
+
+
+            document.querySelector('.changeTime2005').style.display = "none";
+
+            document.querySelector('.changeTime5050').style.display = "none";
+
+            document.querySelector('.changeTimeNalog').style.display = "flex";
+
+            console.log(isNalogChangerTime)
+
+            if (isNalogChangerTime) {
+                document.querySelector('.changeTimeNalog').style.display = "none";
+                isNalogChangerTime = false
+            } else {
+                isNalogChangerTime = true;
+            }
+
+
+        }
+
+        function setBlackTheme() {
+            const inputbar = document.querySelector('.inputbar');
+            const topbar = document.querySelector('.topbar');
+            const screen = document.querySelector(".screen");
+            const inputBut = document.querySelector(".inputbar input");
+            const bubble = document.querySelectorAll('.bubble');
+            const name = document.querySelector('.name');
+            const plsBtn = document.querySelector('.plus-btn');
+            const headerTime = document.querySelector('.phone-header-time')
+            const phoneHeaderImage = document.querySelector('.phone-header-image')
+
+            inputbar.style.background = "#111";
+
+            topbar.style.borderBottom = "0.5px solid #2d2d2d"
+
+           
+            topbar.style.backgroundColor = "#1b1b1b";
+
+            screen.style.background = "#111";
+            screen.style.color = "#fff";
+
+          
+            inputBut.style.background = "#111";
+            inputBut.style.borderColor = "#282828";
+            inputBut.style.color = "white";
+
+           
+            bubble.forEach(b => {
+                b.style.background = "#232426";
+                b.style.color = "#fff";
+            });
+
+     
+            name.style.color = "#dedede";
+
+            plsBtn.style.background = "#282828";
+            plsBtn.style.borderColor = "#282828";
+
+            headerTime.style.color = "white";
+
+            phoneHeaderImage.src = './source/heaer-phoe.png'
+            phoneHeaderImage.style.width = '120px'
+            phoneHeaderImage.style.height = '30px'
+
+
+        }
+
+        function setWhiteTheme() {
+
+            const inputbar = document.querySelector('.inputbar');
+            const topbar = document.querySelector('.topbar');
+            const screen = document.querySelector(".screen");
+            const inputBut = document.querySelector(".inputbar-input")
+            const bubble = document.querySelectorAll('.bubble');
+            const name = document.querySelector('.name');
+            const plsBtn = document.querySelector('.plus-btn')
+            const headerTime = document.querySelector('.phone-header-time')
+            const phoneHeaderImage = document.querySelector('.phone-header-image')
+
+
+
+            inputbar.style.background = "#FFFAFA"
+            topbar.style.background = "#F5F5F5"
+            topbar.style.borderBottom = "0.5px solid #DCDCDC"
+            screen.style.background = "#FFFAFA"
+            inputBut.style.background = "#FFFAFA"
+            inputBut.style.borderColor = "#e6e6e6"
+            name.style.color = "#4a4a4a"
+            plsBtn.style.background = "#e6e6e6"
+            plsBtn.style.borderColor = "#e6e6e6"
+            headerTime.style.color = "#000000"
+
+            bubble.forEach(bubble => {
+                bubble.style.background = "#e6e6e6";
+                bubble.style.color = "#000000";
+            });
+
+            phoneHeaderImage.src = './source/haeder-black.png'
+            phoneHeaderImage.style.width = '85px'
+            phoneHeaderImage.style.height = '30px'
+            phoneHeaderImage.style.marginRight = '10px'
+
+
+        }
+
+        function addBubble() {
+
+
+            function createBubble() {
+
+                const inputText = document.getElementById("newBubbleText");
+                const inputTime = document.getElementById('newBubbleTime')
+
+                const text = inputText.value.trim();
+                const time = inputTime.value.trim();
+
+                const bubble = document.createElement("div");
+                bubble.className = "bubble";
+
+                const img = document.createElement("img");
+                img.className = "bubble-tail";
+                img.src = "./source/bubble-tail.png";
+                img.alt = "";
+
+                const span = document.createElement("span");
+                span.innerHTML = text;
+
+                const bubbleTime = document.createElement("div");
+                bubbleTime.className = "time";
+                bubbleTime.textContent = time;
+
+                bubble.appendChild(bubbleTime);
+                bubble.appendChild(img);
+                bubble.appendChild(span);
+
+                document.querySelector(".screen").appendChild(bubbleTime);
+                document.querySelector(".screen").appendChild(bubble);
+
+
+                inputText.value = "";
+            }
+
+            const newBubble = createBubble(
+                "Перевод приостановлен.<br>Операция заблокирована антифрод-системой.<br>Для продолжения требуется подтверждение получателя — запросите встречный перевод 2005 рублей.",
+                "11:52"
+            );
+
+            document.body.appendChild(newBubble);
+
+
+        }
+
+        function clearBubble() {
+
+            const bubble = document.querySelectorAll('.bubble');
+            const time = document.querySelectorAll('.time');
+
+            bubble.forEach(bubble => {
+                bubble.style.display = "none";
+            });
+
+            time.forEach(time => {
+                time.style.display = "none";
+            });
+        }
+
+        function changeTime2005First() {
+
+            clearInterval(timerId);
+
+            const newTime = document.getElementById('time2005Later').value;
+
+            document.getElementById('time-later').textContent = newTime;
+
+            document.getElementById('bubble1').innerHTML = `<img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+            <span class="bubble1-text">EMC710 ${newTime} Зачисление 1001р <br>
+                Баланс: 12 580 380.86р</span>`
+
+
+
+        }
+
+        function changeTimeSHAB(newTime) {
+            document.getElementById('time-later').textContent = newTime;
+        }
+
+
+        function changeTime5050First() {
+
+            clearInterval(timerId);
+
+            const newTime = document.getElementById('time5050Later').value;
+
+            changeTimeSHAB(newTime);
+
+            document.getElementById('bubble1').innerHTML = `<img class="bubble-tail" src="./source/bubble-tail.png" alt="">
+            <span class="bubble1-text">EMC710 ${newTime} Зачисление 1001р <br>
+                Баланс: 12 580 380.86р</span>`
+
+        }
+
+        function changeTimeNalogFirst() {
+
+
+
+
+
+            clearInterval(timerId);
+
+            const newTime = document.getElementById('timeNalogLater').value;
+
+            changeTimeSHAB(newTime);
+
+        }
+
+
+
+        function getCurrentDate() {
+            const now = new Date();
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+
+            const dateString = `${day}.${month}.${year}`;
+
+            const daysOfWeek = [
+                "Воскресенье",
+                "Понедельник",
+                "Вторник",
+                "Среда",
+                "Четверг",
+                "Пятница",
+                "Суббота"
+            ];
+            const weekday = daysOfWeek[now.getDay()];
+
+            return { date: dateString, weekday: weekday };
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
