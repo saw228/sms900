@@ -30,9 +30,9 @@
 
             align-items: center;
 
-          
+
             align-items: center;
-         
+
             padding: 15px;
             gap: 10px;
             font-size: 17px;
@@ -44,12 +44,12 @@
 
         .back {
             color: #fff;
-        
+
             top: 23px;
             border-radius: 40%;
             border: 2px solid #369bff;
             padding: 0.5px 5px;
-         
+
             font-size: 11px;
             background-color: #369bff;
             font-weight: 400;
@@ -114,11 +114,11 @@
 
         .avatar-img {
             width: 60px;
-           
+
             height: 75px;
             border-radius: 50%;
             object-fit: cover;
-            
+
         }
 
         .name {
@@ -132,9 +132,9 @@
         .sender {
             display: flex;
             flex-direction: column;
-           
+
             align-items: center;
-           
+
             position: relative;
 
         }
@@ -154,13 +154,13 @@
         }
 
         .plus-btn {
-           
+
             width: 35px;
             height: 35px;
 
             background: #282828;
             border: 2px solid #282828;
-       
+
             border-radius: 50%;
 
             display: inline-flex;
@@ -170,6 +170,7 @@
             box-sizing: border-box;
             cursor: pointer;
         }
+
         .plus {
             position: relative;
             width: 24px;
@@ -183,9 +184,9 @@
             left: 50%;
             top: 50%;
             background: #676767;
-      
+
             border-radius: 1px;
-        
+
             transform: translate(-50%, -50%);
         }
 
@@ -461,7 +462,7 @@
 
     <div class="control">
 
-        
+
 
         <div class="change-text-button" style="margin-top:20px; text-align:center;">
             <div class="payments">
@@ -548,6 +549,43 @@
 
     <script>
 
+        document.getElementById("timeNalogLater").addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, ""); // убираем всё кроме цифр
+
+            if (value.length >= 3) {
+                // вставляем двоеточие после двух цифр
+                value = value.slice(0, 2) + ":" + value.slice(2, 4);
+            }
+
+            e.target.value = value.slice(0, 5); // ограничиваем максимум 5 символов
+        });
+
+
+        document.getElementById("time2005Later").addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, ""); // убираем всё кроме цифр
+
+            if (value.length >= 3) {
+                // вставляем двоеточие после двух цифр
+                value = value.slice(0, 2) + ":" + value.slice(2, 4);
+            }
+
+            e.target.value = value.slice(0, 5); // ограничиваем максимум 5 символов
+        });
+
+        document.getElementById("time5050Later").addEventListener("input", function (e) {
+            let value = e.target.value.replace(/\D/g, ""); // убираем всё кроме цифр
+
+            if (value.length >= 3) {
+                // вставляем двоеточие после двух цифр
+                value = value.slice(0, 2) + ":" + value.slice(2, 4);
+            }
+
+            e.target.value = value.slice(0, 5); // ограничиваем максимум 5 символов
+        });
+
+
+        let visualColor = "black";
+
         let is2005ChangerTime = false;
         let is5050ChangerTime = false;
         let isNalogChangerTime = false;
@@ -561,11 +599,11 @@
 
 
 
-        let autoUpdate = true; 
+        let autoUpdate = true;
 
 
         function updateTimes() {
-            if (!autoUpdate) return; 
+            if (!autoUpdate) return;
 
             const options = {
                 timeZone: 'Europe/Moscow',
@@ -583,7 +621,7 @@
         }
 
         function applyCustomTime() {
-            autoUpdate = false; 
+            autoUpdate = false;
 
             const customValue = document.getElementById('customTime').value;
             if (customValue.trim() !== "") {
@@ -710,24 +748,24 @@
 
             topbar.style.borderBottom = "0.5px solid #2d2d2d"
 
-           
+
             topbar.style.backgroundColor = "#1b1b1b";
 
             screen.style.background = "#111";
             screen.style.color = "#fff";
 
-          
+
             inputBut.style.background = "#111";
             inputBut.style.borderColor = "#282828";
             inputBut.style.color = "white";
 
-           
+
             bubble.forEach(b => {
                 b.style.background = "#232426";
                 b.style.color = "#fff";
             });
 
-     
+
             name.style.color = "#dedede";
 
             plsBtn.style.background = "#282828";
