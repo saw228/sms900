@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico">
     <title>iPhone SMS Clone</title>
     <style>
         body {
@@ -542,12 +543,37 @@
             </div>
         </div>
 
+        <button id="copy-btn">Скопировать экран</button>
+
+
     </div>
 
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
+
+        document.getElementById("copy-btn").addEventListener("click", async () => {
+            const element = document.querySelector(".screen");
+
+            // вот здесь передаём настройки
+            const canvas = await html2canvas(element, {
+                scrollY: -window.scrollY,
+                useCORS: true
+            });
+
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+            const item = new ClipboardItem({ "image/png": blob });
+            await navigator.clipboard.write([item]);
+
+            alert("Экран скопирован в буфер обмена!");
+        });
+
+
+
+
+
+
 
         document.getElementById("timeNalogLater").addEventListener("input", function (e) {
             let value = e.target.value.replace(/\D/g, ""); // убираем всё кроме цифр
